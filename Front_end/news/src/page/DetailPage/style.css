@@ -1,0 +1,47 @@
+figure {
+    text-align: center;
+    width: 100%;
+    margin-left:0 ;
+    margin-right: 0;
+}
+figure img {
+    border: 0;
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+figcaption {
+    padding: 8px 0px;
+    background-color: #f2f2f2;
+    color: #616161;
+    font-size: 15px;
+}
+p {
+    font-size: 15px;
+    line-height: 1.6;
+}
+p a {
+    pointer-events:none ;
+    cursor: default;
+    color: black;
+}
+.big_title {
+    font-size: 30px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    color: #0E6830;
+    line-height: 1.4;
+    font-weight: 700;
+    display: block;
+}
+.sapo_detail {
+    font-weight: 500;
+    font-size: 18px;
+    color: #292929;
+    line-height: 1.5;
+    text-align: justify;
+    margin-bottom: 15px;
+}
+.antd-card-body {
+    padding: 12px !important;
+}
