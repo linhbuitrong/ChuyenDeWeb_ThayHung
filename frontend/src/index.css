@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,400&display=swap');
 
 :root {
   --primary-color: #10b981; /* Emerald 500 - Xanh lÃ¡ */
@@ -66,14 +66,15 @@ button {
 
 /* Navbar */
 .navbar {
-  background-color: var(--card-bg);
-  border-bottom: 1px solid var(--border-color);
+  background-color: rgba(255, 255, 255, 0.7);
+  border-bottom: 1px solid rgba(226, 232, 240, 0.5);
   position: sticky;
   top: 0;
   z-index: 50;
-  box-shadow: var(--shadow-sm);
-  backdrop-filter: blur(8px);
-  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  transition: all 0.3s ease;
 }
 
 .navbar .container {
@@ -136,14 +137,17 @@ button {
 }
 
 .btn-primary {
-  background-color: var(--primary-color);
+  background: linear-gradient(135deg, var(--primary-color) 0%, #059669 100%);
   color: white;
+  border: none;
+  box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .btn-primary:hover {
-  background-color: var(--primary-hover);
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-md);
+  background: linear-gradient(135deg, #059669 0%, #047857 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(16, 185, 129, 0.4);
 }
 
 .btn-outline {
@@ -168,15 +172,16 @@ button {
 .card {
   background: var(--card-bg);
   border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-sm);
-  border: 1px solid var(--border-color);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.025);
+  border: 1px solid rgba(226, 232, 240, 0.8);
   overflow: hidden;
-  transition: var(--transition);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .card:hover {
-  box-shadow: var(--shadow-md);
-  transform: translateY(-2px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+  transform: translateY(-4px);
+  border-color: rgba(16, 185, 129, 0.3);
 }
 
 /* Form */
@@ -307,7 +312,7 @@ button {
   animation: fadeIn 0.4s ease-out forwards;
 }
 
-/* Giao di?n báo chí News Layout */
+/* Giao di?n bo ch News Layout */
 .hero-section {
   display: grid;
   grid-template-columns: 2fr 1fr;
@@ -330,7 +335,7 @@ button {
 }
 
 .hero-main .article-title {
-  font-size: 2rem;
+  font-size: 2.5rem; line-height: 1.2;
   margin-top: 1rem;
   font-family: 'Merriweather', serif; /* Font ch? x?n */
 }
@@ -451,4 +456,199 @@ button {
     width: 100%;
     height: 200px;
   }
+}
+
+/* ==============================================================
+   PREMIUM UI OVERHAUL (THE WOW FACTOR)
+============================================================== */
+:root {
+  --bg-color: #f1f5f9; /* Richer gray background */
+  --card-bg: #ffffff;
+  --primary-color: #059669; 
+  --shadow-float: 0 20px 40px -10px rgba(5, 150, 105, 0.15);
+}
+
+body {
+  background-color: var(--bg-color);
+}
+
+/* Floating Navbar */
+.navbar {
+  margin: 1rem auto;
+  max-width: 1200px;
+  border-radius: 9999px;
+  background-color: rgba(255, 255, 255, 0.85) !important;
+  box-shadow: 0 10px 30px -10px rgba(0,0,0,0.1) !important;
+  border: 1px solid rgba(255, 255, 255, 1) !important;
+  backdrop-filter: blur(20px) !important;
+  top: 1rem !important;
+}
+.navbar .container {
+  padding: 0 2rem;
+}
+
+/* Category Nav (Pills) */
+.category-nav {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 1rem 0 !important;
+}
+.category-list {
+  gap: 1rem !important;
+}
+.category-list li {
+  background: white;
+  padding: 0.5rem 1.25rem;
+  border-radius: 9999px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  font-weight: 600;
+  color: var(--text-muted);
+  border: 1px solid transparent;
+  transition: all 0.3s ease !important;
+}
+.category-list li:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  color: var(--text-main) !important;
+}
+.category-list li.active {
+  background: linear-gradient(135deg, var(--primary-color) 0%, #10b981 100%);
+  color: white !important;
+  box-shadow: 0 5px 15px rgba(16, 185, 129, 0.4);
+}
+
+/* Hero Section Magazine Style */
+.hero-section {
+  grid-template-columns: 1.8fr 1fr !important;
+  gap: 2rem !important;
+}
+.hero-main {
+  position: relative;
+  border-radius: 1.5rem;
+  overflow: hidden;
+  display: block;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  height: 480px;
+}
+.hero-img-container {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.hero-main .article-img {
+  width: 100%;
+  height: 100% !important;
+  object-fit: cover;
+  border-radius: 0 !important;
+}
+.hero-overlay {
+  position: absolute;
+  bottom: 0; left: 0; right: 0; top: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.4) 50%, transparent 100%);
+  z-index: 1;
+}
+.hero-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 2.5rem;
+  z-index: 2;
+  transform: translateY(0);
+  transition: transform 0.3s ease;
+}
+.hero-main:hover .hero-content {
+  transform: translateY(-5px);
+}
+.hero-main .article-title {
+  color: white !important;
+  font-size: 2.8rem !important;
+  margin: 1rem 0 0.5rem 0 !important;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+}
+.badge {
+  background: var(--primary-color);
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.text-white {
+  color: white !important;
+}
+
+/* Side Cards in Hero */
+.hero-side {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 1.5rem;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+  justify-content: space-between;
+}
+.side-card {
+  border-bottom: 1px solid var(--border-color) !important;
+  padding-bottom: 1rem !important;
+}
+.side-card .article-img {
+  width: 110px !important;
+  height: 90px !important;
+  border-radius: 0.75rem !important;
+}
+.side-card .article-title {
+  font-size: 1.1rem !important;
+  font-weight: 700;
+}
+
+/* List Items */
+.list-item {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 1.5rem;
+  border: none !important;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+  margin-bottom: 1.5rem !important;
+  transition: all 0.3s ease !important;
+}
+.list-item:hover {
+  transform: translateX(5px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
+.list-item .article-img {
+  border-radius: 1rem !important;
+  width: 260px !important;
+  height: 180px !important;
+}
+.list-item .article-title {
+  font-size: 1.4rem !important;
+  font-family: 'Merriweather', serif;
+}
+
+/* Sidebar Trending */
+.sidebar {
+  background: white;
+  padding: 2rem;
+  border-radius: 1.5rem;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+  height: fit-content;
+}
+.sidebar-title {
+  border-bottom: none !important;
+  position: relative;
+  padding-bottom: 1rem !important;
+}
+.sidebar-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 50px;
+  height: 3px;
+  background: var(--primary-color);
+  border-radius: 3px;
 }
