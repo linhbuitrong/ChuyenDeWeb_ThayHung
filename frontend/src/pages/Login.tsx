@@ -4,6 +4,9 @@ import api from '../api/axios';
 import { GoogleLogin } from '@react-oauth/google';
 import FacebookLogin from '@greatsumini/react-facebook-login';
 
+// Sửa lỗi Vite import CommonJS component thành Module object
+const FBLogin = (FacebookLogin as any).default || FacebookLogin;
+
 const Login: React.FC = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -90,8 +93,8 @@ const Login: React.FC = () => {
           onError={() => setError('Đăng nhập Google thất bại')}
         />
         
-        <FacebookLogin
-          appId="2146458403421402"
+        <FBLogin
+          appId="2146458493421402"
           onSuccess={handleFacebookSuccess}
           onFail={(error) => {
             console.log('Login Failed!', error);
@@ -102,8 +105,9 @@ const Login: React.FC = () => {
           }}
           className="btn btn-primary"
           style={{ backgroundColor: '#4267b2', color: 'white', border: 'none', borderRadius: '4px', padding: '0 12px', fontSize: '14px', fontWeight: '500', height: '40px', cursor: 'pointer', display: 'flex', alignItems: 'center' }}
-          children="Sign in with Facebook"
-        />
+        >
+          Sign in with Facebook
+        </FBLogin>
       </div>
 
       <p className="text-center text-muted mt-4">

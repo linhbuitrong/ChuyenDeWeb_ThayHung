@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import api from '../api/axios';
 import { Calendar, User, RefreshCw, TrendingUp } from 'lucide-react';
 
@@ -13,20 +13,17 @@ interface Article {
 }
 
 const Home: React.FC = () => {
+  const [searchParams] = useSearchParams();
   const [allArticles, setAllArticles] = useState<Article[]>([]);
   const [displayedArticles, setDisplayedArticles] = useState<Article[]>([]);
-  const [categories, setCategories] = useState<{categoryId: number, name: string}[]>([]);
   const [loading, setLoading] = useState(true);
   const [syncing, setSyncing] = useState(false);
   const [visibleCount, setVisibleCount] = useState(5);
-  const [activeCategory, setActiveCategory] = useState('Trang chủ');
 
   const fetchArticles = async () => {
     try {
       const res = await api.get('/articles');
       setAllArticles(res.data);
-      setDisplayedArticles(res.data);
-      setActiveCategory('Trang chủ');
     } catch (error) {
       console.error('Error fetching articles:', error);
     } finally {
@@ -34,26 +31,46 @@ const Home: React.FC = () => {
     }
   };
 
-  const fetchCategories = async () => {
-    try {
-      const res = await api.get('/category');
-      setCategories(res.data);
-    } catch (error) {
-      console.error('Error fetching categories:', error);
-    }
-  };
-
   useEffect(() => {
     fetchArticles();
-    fetchCategories();
   }, []);
+
+  // Lọc bài viết dựa vào URL Query Param (search hoặc categoryId)
+  useEffect(() => {
+    const filterArticles = async () => {
+      const search = searchParams.get('search');
+      const categoryId = searchParams.get('categoryId');
+
+      if (search) {
+        // Tìm kiếm theo tên bài viết
+        const keyword = search.toLowerCase();
+        const filtered = allArticles.filter(a => a.title.toLowerCase().includes(keyword));
+        setDisplayedArticles(filtered);
+      } else if (categoryId) {
+        // Lọc theo danh mục
+        try {
+          const res = await api.get(`/articles?categoryId=${categoryId}`);
+          setDisplayedArticles(res.data);
+        } catch (error) {
+          console.error('Lỗi khi lọc danh mục:', error);
+          setDisplayedArticles([]);
+        }
+      } else {
+        // Hiển thị tất cả
+        setDisplayedArticles(allArticles);
+      }
+    };
+
+    if (allArticles.length > 0) {
+      filterArticles();
+    }
+  }, [searchParams, allArticles]);
 
   const handleSync = async () => {
     try {
       setSyncing(true);
       const res = await api.post('/crawler/run');
       alert(res.data);
-      await fetchCategories(); // Tai lai danh sach chuyen muc sau khi cao
       await fetchArticles();
     } catch (error: any) {
       alert('Lỗi: ' + (error.response?.data || error.message));
@@ -62,28 +79,8 @@ const Home: React.FC = () => {
     }
   };
 
-  const handleCategoryClick = async (categoryName: string, categoryId?: number) => {
-    setActiveCategory(categoryName);
-    setVisibleCount(5);
-
-    if (categoryName === 'Trang chủ' || !categoryId) {
-      setDisplayedArticles(allArticles);
-      return;
-    }
-
-    // Goi API Backend de loc bai viet theo categoryId tu DB
-    try {
-      const res = await api.get(`/articles?categoryId=${categoryId}`);
-      setDisplayedArticles(res.data);
-    } catch (error) {
-      console.error('Error filtering by category:', error);
-      setDisplayedArticles([]);
-    }
-  };
-
   if (loading) return <div className="container mt-4 text-center">Đang tải...</div>;
 
-  // Lấy dữ liệu để chia Layout từ mảng đã lọc
   const reversedArticles = [...displayedArticles].reverse();
   const heroArticle = reversedArticles.length > 0 ? reversedArticles[0] : null;
   const subHeroArticles = reversedArticles.slice(1, 4);
@@ -92,24 +89,6 @@ const Home: React.FC = () => {
 
   return (
     <>
-      {/* Thanh chuyên mục (Mock) */}
-      <div className="category-nav">
-        <div className="container">
-          <ul className="category-list">
-            <li 
-              style={{ color: activeCategory === 'Trang chủ' ? 'var(--primary-color)' : 'inherit' }} 
-              onClick={() => handleCategoryClick('Trang chủ')}
-            >Trang chủ</li>
-            {categories.map(cat => (
-              <li 
-                key={cat.categoryId}
-                className={activeCategory === cat.name ? 'active' : ''}
-                onClick={() => handleCategoryClick(cat.name, cat.categoryId)}
-              >{cat.name}</li>
-            ))}
-          </ul>
-        </div>
-      </div>
 
       <div className="container animate-fade-in">
         <div className="flex justify-between items-center mb-4">
@@ -220,8 +199,8 @@ const Home: React.FC = () => {
 
         {displayedArticles.length === 0 && (
           <div className="card" style={{ padding: '3rem', textAlign: 'center', marginTop: '2rem' }}>
-            <h3 style={{ fontSize: '1.25rem', color: 'var(--text-muted)' }}>Chưa có bài viết nào thuộc chuyên mục {activeCategory}.</h3>
-            <p className="text-muted mt-4">Vui lòng chọn chuyên mục khác hoặc tải thêm bài viết.</p>
+            <h3 style={{ fontSize: '1.25rem', color: 'var(--text-muted)' }}>Chưa có bài viết nào phù hợp.</h3>
+            <p className="text-muted mt-4">Vui lòng thử tìm kiếm với từ khoá khác hoặc tải thêm bài viết.</p>
           </div>
         )}
       </div>
