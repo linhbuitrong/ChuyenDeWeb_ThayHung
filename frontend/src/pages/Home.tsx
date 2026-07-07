@@ -103,7 +103,7 @@ const Home: React.FC = () => {
             {categories.map(cat => (
               <li 
                 key={cat.categoryId}
-                style={{ color: activeCategory === cat.name ? 'var(--primary-color)' : 'inherit' }}
+                className={activeCategory === cat.name ? 'active' : ''}
                 onClick={() => handleCategoryClick(cat.name, cat.categoryId)}
               >{cat.name}</li>
             ))}
@@ -128,10 +128,16 @@ const Home: React.FC = () => {
         {heroArticle && (
           <div className="hero-section">
             <Link to={`/article/${heroArticle.id}`} className="hero-main">
-              <img src={heroArticle.imageId} alt={heroArticle.title} className="article-img" />
-              <h2 className="article-title">{heroArticle.title}</h2>
-              <div className="text-muted flex items-center gap-2" style={{ fontSize: '0.875rem' }}>
-                <User size={14} /> {heroArticle.author} &bull; <Calendar size={14} /> {new Date(heroArticle.createdAt).toLocaleDateString('vi-VN')}
+              <div className="hero-img-container">
+                <img src={heroArticle.imageId} alt={heroArticle.title} className="article-img" />
+                <div className="hero-overlay"></div>
+              </div>
+              <div className="hero-content">
+                <span className="badge">Tin Nổi Bật</span>
+                <h2 className="article-title text-white">{heroArticle.title}</h2>
+                <div className="flex items-center gap-2 text-white" style={{ fontSize: '0.9rem', opacity: 0.9 }}>
+                  <User size={14} /> {heroArticle.author} &bull; <Calendar size={14} /> {new Date(heroArticle.createdAt).toLocaleDateString('vi-VN')}
+                </div>
               </div>
             </Link>
             
